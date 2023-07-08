@@ -7,7 +7,7 @@ pipeline {
         echo "install curl"
         powershell 'Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py'  // Download get-pip.py
         echo "get py"
-        sh 'python get-pip.py'  // Install pip
+        powershell 'python get-pip.py'  // Install pip
         echo "install"
         sh 'pip install -r requirements.txt'  // Install Python dependencies
       }
