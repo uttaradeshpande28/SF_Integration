@@ -4,8 +4,11 @@ pipeline {
  stages {
   stage('Install Pip') {
       steps {
+        echo "install curl"
         sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'  // Download get-pip.py
+        echo "get py"
         sh 'python get-pip.py'  // Install pip
+        echo "install"
         sh 'pip install -r requirements.txt'  // Install Python dependencies
       }
     }
