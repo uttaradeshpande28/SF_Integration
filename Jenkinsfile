@@ -8,15 +8,17 @@ pipeline {
         powershell 'Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py'  // Download get-pip.py
         echo "get py"
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe get-pip.py'  // Replace with the correct path to your Python executable
+        echo "install"
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with full path to pip executable
       }
     }
 
     stage('Build and Test') {
       steps {
         echo "0.."
-        powershell 'pip install -r requirements.txt'  // Install Python dependencies using PowerShell
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with full path to pip executable
         echo "1.."
-        powershell 'coverage run --source=your_source_directory -m pytest tests/'  // Run tests with code coverage using PowerShell
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=your_source_directory -m pytest tests/'  // Run tests with code coverage using PowerShell with full path to coverage executable
         echo "2.."
       }
     }
@@ -29,7 +31,7 @@ pipeline {
 
     stage('Generate Excel File') {
       steps {
-        powershell 'python generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell with full path to Python executable
       }
       post {
         always {
@@ -40,8 +42,8 @@ pipeline {
 
     stage('Coverage Report') {
       steps {
-        powershell 'coverage report -m'  // Generate coverage report using PowerShell
-        powershell 'coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'  // Generate coverage report using PowerShell with full path to coverage executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell with full path to coverage executable
       }
     }
   }
