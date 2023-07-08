@@ -10,14 +10,9 @@ pipeline {
     }
 
     stage('Fetch User Data') {
-      steps {
-        script {
-          // Make an API call to fetch user data
-          def userData = sh(returnStdout: true, script: 'curl https://reqres.in/api/users')
-          // Write the API response to a JSON file
-          writeFile file: 'user_data.json', text: userData
-        }
-      }
+        steps {
+                sh 'curl -o user_data.xlsx https://reqres.in/api/users'  // Example shell command
+            }
     }
 
     stage('Generate Excel File') {
