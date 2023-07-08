@@ -5,7 +5,9 @@ pipeline {
     stage('Build and Test') {
       steps {
         sh 'pip install -r requirements.txt'  // Install Python dependencies
+        echo "1.."
         sh 'coverage run --source=your_source_directory -m pytest tests/'  // Run tests with code coverage
+        echo "2.."
       }
     }
 
