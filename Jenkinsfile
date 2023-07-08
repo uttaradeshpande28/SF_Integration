@@ -5,7 +5,7 @@ pipeline {
   stage('Install Pip') {
       steps {
         echo "install curl"
-        sh 'wget https://bootstrap.pypa.io/get-pip.py'  // Download get-pip.py
+        powershell 'Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py'  // Download get-pip.py
         echo "get py"
         sh 'python get-pip.py'  // Install pip
         echo "install"
