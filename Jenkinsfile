@@ -1,6 +1,14 @@
 pipeline {
   agent any
 
+  stage('Install Pip') {
+      steps {
+        sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'  // Download get-pip.py
+        sh 'python get-pip.py'  // Install pip
+        sh 'pip install -r requirements.txt'  // Install Python dependencies
+      }
+    }
+  
   stages {
     stage('Build and Test') {
       steps {
