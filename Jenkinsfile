@@ -1,6 +1,7 @@
 pipeline {
   agent any
 
+ stages {
   stage('Install Pip') {
       steps {
         sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'  // Download get-pip.py
@@ -9,7 +10,6 @@ pipeline {
       }
     }
   
-  stages {
     stage('Build and Test') {
       steps {
         echo "0.."
