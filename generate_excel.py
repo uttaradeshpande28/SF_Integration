@@ -1,36 +1,49 @@
-import requests
 import os
+import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
 
-def fetch_user_data():
-    response = requests.get('https://reqres.in/api/users')
-    data = response.json().get('data', [])
-    return data
-
-def download_image(url, filename):
-    response = requests.get(url)
-    with open(filename, 'wb') as image_file:
-        image_file.write(response.content)
+def delete_existing_images():
+    """
+    Delete existing .jpg files in the workspace.
+    """
+    workspace_path = os.getcwd()
+    for file_name in os.listdir(workspace_path):
+        if file_name.endswith(".jpg"):
+            os.remove(os.path.join(workspace_path, file_name))
 
 def generate_pdf_file():
-    user_data = fetch_user_data()
+    """
+    Generate a PDF file with user data and avatar images.
+    """
+    delete_existing_images()
 
+    # Fetch user data from the API
+    user_data = fetch_user_data()
+    image_filenames = []
+
+    # Download avatar images and save in the workspace
+    for user in user_data:
+        avatar_url = user['avatar']
+        image_filename = f'{user["id"]}-{user["first_name"]}_{user["last_name"]}.jpg'
+        response = requests.get(avatar_url)
+        with open(os.path.join(os.getcwd(), image_filename), 'wb') as image_file:
+            image_file.write(response.content)
+        
+        image_filenames.append(image_filename)
+
+    # Create PDF document
     doc = SimpleDocTemplate("user_data.pdf", pagesize=letter)
     elements = []
 
     data = [['Email', 'First Name', 'Last Name', 'Avatar']]
-    for user in user_data:
+    for user, image_filename in zip(user_data, image_filenames):
         email = user['email']
         first_name = user['first_name']
         last_name = user['last_name']
-        avatar_url = user['avatar']
-
-        image_filename = f'{user["id"]}-avatar.jpg'
-        download_image(avatar_url, image_filename)
-
-        data.append([email, first_name, last_name, Image(image_filename, width=1.5*inch, height=1.5*inch)])
+        avatar_image = Image(os.path.join(os.getcwd(), image_filename), width=50, height=50)
+        data.append([email, first_name, last_name, avatar_image])
 
     table = Table(data)
     table.setStyle(TableStyle([
@@ -51,5 +64,3 @@ def generate_pdf_file():
     elements.append(table)
 
     doc.build(elements)
-
-generate_pdf_file()
