@@ -44,8 +44,6 @@ pipeline {
       }
     }
   
-    
-
     stage('build') {
       steps {
         script {
@@ -85,9 +83,9 @@ pipeline {
         post {
           always {
             archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true  // Archive the coverage.xml file as an artifact
+          }
         }
       }
     }
   }
-}
 }
