@@ -50,7 +50,7 @@ pipeline {
         // Remove the existing test file if it exists
         powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
         
-        def testURL = "${url}/test/test_generate_pdf.py"
+        def testURL = "${url}/test_generate_pdf.py"
         
         // Get the test_generate_pdf.py file from the constructed URL
         powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
