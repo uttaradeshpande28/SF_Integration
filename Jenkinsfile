@@ -20,7 +20,6 @@ pipeline {
         echo "2.."
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with full path to coverage executable
         echo "3.."
-        
       }
     }
 
@@ -53,6 +52,11 @@ pipeline {
       steps {
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'  // Generate coverage report using PowerShell with full path to coverage executable
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell with full path to coverage executable
+      }
+      post {
+        always {
+          archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true  // Archive the coverage.xml file as an artifact
+        }
       }
     }
   }
