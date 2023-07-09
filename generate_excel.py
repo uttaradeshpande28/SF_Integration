@@ -53,7 +53,7 @@ def generate_excel_file():
     
     print("Saving the Excel file...")
     current_directory = os.getcwd()
-    file_path = os.path.join(current_directory, 'user_data.xls')
+    file_path = os.path.join(current_directory, 'user_data.xlsx')
 
     # Remove the existing file if it exists
     if os.path.exists(file_path):
