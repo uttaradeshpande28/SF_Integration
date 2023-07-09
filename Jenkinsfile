@@ -3,9 +3,10 @@ pipeline {
   
   stages {
     stage('Clear Workspace') {
-            steps {
-                cleanWs()
-            }
+      steps {
+        cleanWs()
+      }
+    }
       
     stage('Install Pip') {
       steps {
@@ -19,11 +20,11 @@ pipeline {
     stage('Build and Test') {
       steps {
         echo "0.."
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with full path to pip executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with the full path to the pip executable
         echo "1.."
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install pillow'  // Install Pillow
         echo "2.."
-        // powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with full path to coverage executable
+        // powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with the full path to the coverage executable
         echo "3.."
       }
     }
@@ -42,7 +43,7 @@ pipeline {
 
     stage('Generate Excel File') {
       steps {
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell with full path to Python executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
         echo "Contents of workspace directory after generating Excel file:"
         bat 'dir'
       }
@@ -55,8 +56,8 @@ pipeline {
 
     stage('Coverage Report') {
       steps {
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'  // Generate coverage report using PowerShell with full path to coverage executable
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell with full path to coverage executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'  // Generate coverage report using PowerShell with the full path to the coverage executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
       }
       post {
         always {
