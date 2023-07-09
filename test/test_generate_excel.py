@@ -1,9 +1,8 @@
 import os
 from openpyxl import load_workbook
 import pytest
-from openpyxl.drawing.image import Image as ExcelImage
+from openpyxl.drawing.image import Image
 from generate_excel import fetch_user_data
-from openpyxl import load_workbook
 from generate_excel import generate_excel_file
 
 print("Imports successful test file")
@@ -50,10 +49,10 @@ def test_generate_excel_file():
     # Verify the image data in specific cells
     for idx_value in idx_values:
         cell_with_image = sheet[f'D{idx_value}']
-        image = cell_with_image.image
-        # Check if the cell has an image
-        assert image is not None
-
+        image = cell_with_image.value
+        # Check if the cell value is an instance of Image
+        assert isinstance(image, Image)
+    
     # Verify the image file
     # cell_with_image = sheet['D3']
     # image_filename = os.path.basename(cell_with_image.value)
