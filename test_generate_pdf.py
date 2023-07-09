@@ -3,6 +3,7 @@ import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
+import generate_pdf
 from generate_pdf import delete_existing_images, fetch_user_data, generate_pdf_file
 
 def test_fetch_user_data():
