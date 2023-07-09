@@ -1,10 +1,12 @@
 import requests
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
+import os
 
 # Fetch user data from the API
 response = requests.get('https://reqres.in/api/users')
 user_data = response.json().get('data', [])
+print(user_data)
 
 # Create an Excel workbook and sheet
 wb = Workbook()
@@ -28,4 +30,9 @@ for idx, user in enumerate(user_data, start=3):
     sheet.add_image(img, f'D{idx}')
 
 # Save the Excel file
-wb.save('user_data.xlsx')
+current_directory = os.getcwd()
+file_path = os.path.join(current_directory, 'user_data.xlsx')
+wb.save(file_path)
+
+# Print the file path for verification
+print(f"Excel file saved at: {file_path}")
