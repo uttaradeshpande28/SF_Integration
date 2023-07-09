@@ -51,7 +51,7 @@ pipeline {
           def downloadDir = "${env.WORKSPACE}"
           echo "Download Directory: ${downloadDir}"
           powershell "cd ${downloadDir}"
-          powershell "curl -o user_data.xlsx https://reqres.in/api/users"
+          powershell "curl -o user_data.xls https://reqres.in/api/users"
           bat "dir ${downloadDir}"
         }
       }
@@ -75,7 +75,7 @@ pipeline {
       }
       post {
         always {
-          archiveArtifacts artifacts: 'user_data.xlsx', onlyIfSuccessful: true  // Archive the Excel file as an artifact
+          archiveArtifacts artifacts: 'user_data.xls', onlyIfSuccessful: true  // Archive the Excel file as an artifact
         }
       }
     }
