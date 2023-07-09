@@ -4,6 +4,7 @@ import pytest
 from openpyxl.drawing.image import Image as ExcelImage
 from generate_excel import fetch_user_data
 from openpyxl import load_workbook
+from generate_excel import generate_excel_file
 
 print("Imports successful test file")
 
