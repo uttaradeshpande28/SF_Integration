@@ -6,6 +6,8 @@ from openpyxl.drawing.image import Image as ExcelImage
 print("Imports successful test file")
 
 def test_generate_excel_file():
+    assert 'requests' in globals()
+    
     # Generate the Excel file
     exec(open("generate_excel.py").read())
 
