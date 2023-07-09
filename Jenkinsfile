@@ -56,6 +56,8 @@ pipeline {
         powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
         
         echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        // Run the downloaded test file
+        powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/test_generate_pdf.py"
         }
       }
     }
