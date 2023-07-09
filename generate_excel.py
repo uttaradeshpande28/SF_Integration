@@ -72,10 +72,8 @@ def generate_pdf_file():
 
     elements.append(table)
 
-    pdf_path = os.path.join(os.getcwd(), 'user_data.pdf')
     doc.build(elements)
-    doc.save()
-    
-    print("PDF file saved at:", pdf_path)
+
+    print("PDF file saved at:", os.path.join(os.getcwd(), "user_data.pdf"))
 
 generate_pdf_file()
