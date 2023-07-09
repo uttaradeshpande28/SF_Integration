@@ -33,7 +33,7 @@ def test_generate_pdf_file():
         last_name = data['last_name']
 
         # Check if the email, first name, and last name values are present in the PDF
-        assert email in pdf_content, f"Email '{email}' not found in the PDF"
+        assert email.encode() in pdf_content.decode(), f"Email '{email}' not found in the PDF"
         assert first_name in pdf_content, f"First name '{first_name}' not found in the PDF"
         assert last_name in pdf_content, f"Last name '{last_name}' not found in the PDF"
 
