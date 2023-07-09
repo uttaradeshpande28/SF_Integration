@@ -2,6 +2,7 @@ import requests
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 import os
+print("Imports successful.")
 
 print("Fetching user data from the API...")
 response = requests.get('https://reqres.in/api/users')
