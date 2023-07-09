@@ -79,7 +79,7 @@ pipeline {
       }
       post {
         always {
-          archiveArtifacts artifacts: 'user_data.xlsx', onlyIfSuccessful: true  // Archive the Excel file as an artifact
+          archiveArtifacts artifacts: 'user_data.pdf', onlyIfSuccessful: true  // Archive the Excel file as an artifact
         }
       }
     }
