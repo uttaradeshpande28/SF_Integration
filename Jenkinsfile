@@ -8,7 +8,7 @@ pipeline {
       }
     }
       
-    stage('Install Pip') {
+    stage('Installations') {
       steps {
         echo "install curl"
         powershell 'Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py'  // Download get-pip.py
@@ -17,7 +17,7 @@ pipeline {
       }
     }
 
-    stage('Fetch Requirements File') {
+    stage('pre-build') {
       steps {
         script {
           def downloadDir = "${env.WORKSPACE}"
@@ -26,52 +26,40 @@ pipeline {
     
           echo "Download Directory: ${downloadDir}"
           
-           // Remove the existing requirements.txt file if it exists
+          // Remove the existing requirements.txt file if it exists
           powershell "Remove-Item -Path '${downloadDir}/requirements.txt' -ErrorAction SilentlyContinue"
-    
+          // get requirement.txt
           powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/requirements.txt"
-    
           echo "Requirements file downloaded and saved at: ${downloadDir}/requirements.txt"
+          
+          // Install Python dependencies using pip
+          powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with the full path to the pip executable
+          
+          // Install the Pillow library for image processing
+          powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install pillow'  // Install Pillow
         }
       }
     }
   
-    stage('Build and Test') {
+    stage('test') {
       steps {
-        echo "0.."
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with the full path to the pip executable
-        echo "1.."
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install pillow'  // Install Pillow
-        echo "2.."
+        //test
         // powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with the full path to the coverage executable
         echo "3.."
       }
     }
-
-    /* stage('Fetch User Data') {
-      steps {
-        script {
-          def downloadDir = "${env.WORKSPACE}"
-          echo "Download Directory: ${downloadDir}"
-          powershell "cd ${downloadDir}"
-          powershell "curl -o user_data.xlsx https://reqres.in/api/users"
-          bat "dir ${downloadDir}"
-        }
-      }
-    }
-    */
     
-    stage('Generate Excel File') {
+    stage('build') {
       steps {
         script {
           def downloadDir = "${env.WORKSPACE}"
           def branch = "feature/sf"  // Replace with the desired branch name
-          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/generate_excel.py"
+          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/generate_pdf.py"
     
           echo "Download Directory: ${downloadDir}"
     
-          powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/generate_excel.py"
-          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/generate_excel.py"  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
+          powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/generate_pdf.py"
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/generate_pdf.py"  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
     
           echo "Contents of workspace directory after generating Excel file:"
           bat 'dir'
