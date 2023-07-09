@@ -23,10 +23,13 @@ pipeline {
 
     stage('Fetch User Data') {
       steps {
-        powershell 'curl -o user_data.xlsx https://reqres.in/api/users'  // Example shell command using PowerShell
-        echo "Current working directory: ${env.WORKSPACE}"
-        echo "Contents of workspace directory:"
-        bat 'dir'
+        script {
+          def downloadDir = "${env.WORKSPACE}"
+          echo "Download Directory: ${downloadDir}"
+          powershell "cd ${downloadDir}"
+          powershell "curl -o user_data.xlsx https://reqres.in/api/users"
+          bat "dir ${downloadDir}"
+        }
       }
     }
 
