@@ -3,14 +3,14 @@ import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
-from generate_pdf import generate_pdf_file, delete_existing_images
+import generate_pdf
 
 def test_fetch_user_data():
     # Define test data
     url = "https://reqres.in/api/users"
 
     # Call the fetch_user_data function
-    data = fetch_user_data(url)
+    data = generate_pdf.fetch_user_data(url)
 
     # Assert that the data is fetched successfully
     assert isinstance(data, list), "Data is not a list"
@@ -24,10 +24,10 @@ def test_generate_pdf_file():
     ]
 
     # Call the delete_existing_images function to clear any pre-existing images
-    # delete_existing_images()
+    # generate_pdf.delete_existing_images()
 
     # Call the generate_pdf_file function
-    generate_pdf_file()
+    generate_pdf.generate_pdf_file()
 
     # Assert that the PDF file is generated successfully
     pdf_path = os.path.join(os.getcwd(), "user_data.pdf")
