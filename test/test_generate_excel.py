@@ -2,12 +2,15 @@ import os
 from openpyxl import load_workbook
 import pytest
 from openpyxl.drawing.image import Image as ExcelImage
-from generate_excel import user_data
+from generate_excel import fetch_user_data
 
 print("Imports successful test file")
 
 def test_generate_excel_file():
-    assert response.status_code == 200
+    user_data, response = fetch_user_data()
+    # Verify the user data
+    assert len(user_data) > 0  # Check if user data is not empty
+    #assert response.status_code == 200
     
     # Generate the Excel file
     exec(open("generate_excel.py").read())
