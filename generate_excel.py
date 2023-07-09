@@ -3,9 +3,15 @@ import os
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
-from PIL import Image as PILImage
+from reportlab.lib.utils import ImageReader
 
 print("Imports successful.")
+
+# Remove downloaded images if they exist
+current_directory = os.getcwd()
+for filename in os.listdir(current_directory):
+    if filename.endswith(".jpg") or filename.endswith(".png"):
+        os.remove(os.path.join(current_directory, filename))
 
 def fetch_user_data():
     print("Fetching user data from the API...")
@@ -25,10 +31,7 @@ def generate_pdf_file():
     user_data, response = fetch_user_data()
 
     print("Creating a PDF file...")
-    current_directory = os.getcwd()
-    file_path = os.path.join(current_directory, 'user_data.pdf')
-    print("File path:", file_path)
-    doc = SimpleDocTemplate(file_path, pagesize=letter)
+    doc = SimpleDocTemplate("user_data.pdf", pagesize=letter)
     elements = []
 
     # Define table data
@@ -45,8 +48,11 @@ def generate_pdf_file():
         print("Downloading avatar image:", avatar_url)
         download_image(avatar_url, image_path)
         
-        # Create an Image object with the downloaded image
-        image = Image(image_path, width=50, height=50)
+        # Create an ImageReader object with the downloaded image
+        image_reader = ImageReader(image_path)
+        image_width = 50  # Adjust the image width as needed
+        image_height = 50  # Adjust the image height as needed
+        image = Image(image_reader, width=image_width, height=image_height)
         
         # Add the row to the table data
         data.append([email, first_name, last_name, image])
@@ -76,4 +82,5 @@ def generate_pdf_file():
     
     print("PDF file saved as user_data.pdf")
 
+# Generate the PDF file
 generate_pdf_file()
