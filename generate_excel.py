@@ -1,9 +1,8 @@
 import requests
 import os
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
-from reportlab.lib.units import inch
 
 def fetch_user_data():
     response = requests.get('https://reqres.in/api/users')
@@ -28,10 +27,10 @@ def generate_pdf_file():
         last_name = user['last_name']
         avatar_url = user['avatar']
 
-        image_filename = f'avatar.jpg'
+        image_filename = f'{user["id"]}-avatar.jpg'
         download_image(avatar_url, image_filename)
 
-        data.append([email, first_name, last_name, image_filename])
+        data.append([email, first_name, last_name, Image(image_filename, width=1.5*inch, height=1.5*inch)])
 
     table = Table(data)
     table.setStyle(TableStyle([
