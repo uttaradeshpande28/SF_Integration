@@ -36,7 +36,7 @@ pipeline {
           echo "Requirements file downloaded and saved at: ${downloadDir}/requirements.txt"
           
           // Install Python dependencies using pip
-          powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r requirements.txt'  // Install Python dependencies using PowerShell with the full path to the pip executable
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install -r ${downloadDir}/requirements.txt"  // Install Python dependencies using PowerShell with the full path to the pip executable
           
           // Install the Pillow library for image processing
           powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install pillow'  // Install Pillow
@@ -49,10 +49,10 @@ pipeline {
         // Remove the existing test file if it exists
         powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
         
-        def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/feature/sf/test/test_generate_pdf.py"
+        def testURL = "${url}/test/test_generate_pdf.py"
         
-        // Get the test_generate_pdf.py file from the raw content URL
-        powershell "Invoke-WebRequest -Uri '${fileURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
+        // Get the test_generate_pdf.py file from the constructed URL
+        powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
         
         echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
       }
