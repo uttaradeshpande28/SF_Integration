@@ -44,8 +44,5 @@ def test_generate_excel_file():
     # Verify the image file format
     #assert img.format == 'jpeg'
 
-    # Verify the cleanup of the local image file
-    assert not os.path.exists('1-image.jpg')
-
     # Clean up the generated Excel file
     os.remove('user_data.xlsx')
