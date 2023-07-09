@@ -33,7 +33,9 @@ def test_generate_excel_file():
     assert sheet['C3'].value == 'Bluth'
 
     # Verify the image data
-    assert sheet['D3'].anchor.type == 'oneCellAnchor'  # Verify the image anchor type
+    image = sheet['D3'].image
+    assert isinstance(image, Image)  # Verify that the object is an instance of Image
+    assert image.anchor.type == 'oneCellAnchor'  # Verify the image anchor type
 
     # Verify the image dimensions
     img = sheet['D3'].image
