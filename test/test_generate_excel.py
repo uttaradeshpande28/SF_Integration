@@ -67,3 +67,4 @@ def test_generate_excel_file():
 
     # Clean up the generated Excel file
     os.remove('user_data.xlsx')
+    print("user_data.xlsx removed")
