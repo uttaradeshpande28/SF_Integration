@@ -1,6 +1,7 @@
 import requests
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
+import openpyxl
 import os
 from PIL import Image as PILImage
 
