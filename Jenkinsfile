@@ -46,15 +46,18 @@ pipeline {
   
     stage('test') {
       steps {
-        // Remove the existing test file if it exists
-        powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
-        
-        def url = "${url}/${branch}/test/test_generate_pdf.py"
-        
-        // Get the test_generate_pdf.py file from the constructed URL
-        powershell "Invoke-WebRequest -Uri '${url}' -OutFile '${downloadDir}/test_generate_pdf.py'"
-        
-        echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        script {
+          // Remove the existing test file if it exists
+          powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
+    
+          // Construct the URL for the test file
+          def testFileUrl = "${url}/${branch}/test/test_generate_pdf.py"
+          
+          // Get the test_generate_pdf.py file from the constructed URL
+          powershell "Invoke-WebRequest -Uri '${testFileUrl}' -OutFile '${downloadDir}/test_generate_pdf.py'"
+          
+          echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        }
       }
     }
 
