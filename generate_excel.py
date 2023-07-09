@@ -46,8 +46,8 @@ def generate_excel_file():
         sheet.row_dimensions[idx].height = 100
         sheet.add_image(img, f'D{idx}')
         
-        # Add a line to store the value of idx as a variable
-        idx_value = idx
+        # Add the idx value to the list
+        idx_values.append(idx)
     
     print("Saving the Excel file...")
     current_directory = os.getcwd()
@@ -57,3 +57,5 @@ def generate_excel_file():
     
     print("Contents of the current directory:")
     print(os.listdir())
+
+    return idx_values  # Return the list of idx values
