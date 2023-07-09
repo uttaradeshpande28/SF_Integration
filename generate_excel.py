@@ -1,7 +1,7 @@
 import requests
 import os
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
 from PIL import Image as PILImage
 
@@ -17,7 +17,7 @@ def fetch_user_data():
     return user_data, response
 
 def download_image(url, filename):
-    response = requests.get('https://reqres.in/api/users')
+    response = requests.get(url)
     with open(filename, 'wb') as image_file:
         image_file.write(response.content)
 
@@ -45,8 +45,11 @@ def generate_pdf_file():
         print("Downloading avatar image:", avatar_url)
         download_image(avatar_url, image_path)
         
+        # Create an Image object with the downloaded image
+        image = Image(image_path, width=50, height=50)
+        
         # Add the row to the table data
-        data.append([email, first_name, last_name, image_path])
+        data.append([email, first_name, last_name, image])
     
     # Create the table
     table = Table(data)
