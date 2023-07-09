@@ -10,7 +10,8 @@ def test_generate_excel_file():
     user_data, response = fetch_user_data()
     # Verify the user data
     assert len(user_data) > 0  # Check if user data is not empty
-    #assert response.status_code == 200
+    # verifu response status
+    assert response.status_code == 200
     
     # Generate the Excel file
     exec(open("generate_excel.py").read())
