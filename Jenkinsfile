@@ -46,18 +46,15 @@ pipeline {
   
     stage('test') {
       steps {
-        script {
-          // Remove the existing test file if it exists
-          powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
-    
-          // Construct the URL for the test file
-          def testFileUrl = "${url}/${branch}/test_generate_pdf.py"
-          
-          // Get the test_generate_pdf.py file from the constructed URL
-          powershell "Invoke-WebRequest -Uri '${testFileUrl}' -OutFile '${downloadDir}/test_generate_pdf.py'"
-          
-          echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
-        }
+        // Remove the existing test file if it exists
+        powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
+        
+        def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/feature/sf/test/test_generate_pdf.py"
+        
+        // Get the test_generate_pdf.py file from the raw content URL
+        powershell "Invoke-WebRequest -Uri '${fileURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
+        
+        echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
       }
     }
 
