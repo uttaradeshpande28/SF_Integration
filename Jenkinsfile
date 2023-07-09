@@ -48,7 +48,7 @@ pipeline {
       }
     }
 
-    stage('Fetch User Data') {
+    /* stage('Fetch User Data') {
       steps {
         script {
           def downloadDir = "${env.WORKSPACE}"
@@ -59,7 +59,8 @@ pipeline {
         }
       }
     }
-
+    */
+    
     stage('Generate Excel File') {
       steps {
         script {
