@@ -49,7 +49,7 @@ def test_generate_excel_file():
 
     # Verify the image data in specific cells
     for idx_value in idx_values:
-        image = sheet._images[f'D{idx_value}']
+        image = sheet._images[idx_value]
         assert image is not None and isinstance(image, ExcelImage)
 
     # Verify the image file
