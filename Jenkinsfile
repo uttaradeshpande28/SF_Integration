@@ -24,12 +24,17 @@ pipeline {
     stage('Fetch User Data') {
       steps {
         powershell 'curl -o user_data.xlsx https://reqres.in/api/users'  // Example shell command using PowerShell
+        echo "Current working directory: ${env.WORKSPACE}"
+        echo "Contents of workspace directory:"
+        bat 'dir'
       }
     }
 
     stage('Generate Excel File') {
       steps {
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell with full path to Python executable
+        echo "Contents of workspace directory after generating Excel file:"
+        bat 'dir'
       }
       post {
         always {
