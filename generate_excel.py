@@ -1,9 +1,8 @@
 import requests
-from openpyxl import Workbook
-from openpyxl.drawing.image import Image
-import openpyxl
 import os
-from PIL import Image as PILImage
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 
 print("Imports successful.")
 
@@ -16,53 +15,51 @@ def fetch_user_data():
     print(user_data)
     return user_data, response
 
-def generate_excel_file():
+def generate_pdf_file():
     user_data, response = fetch_user_data()
 
-    print("Creating an Excel workbook...")
-    wb = Workbook()
-    sheet = wb.active
-    
-    print("Writing headers to the Excel sheet...")
-    sheet['A1'] = 'User Data'
-    sheet['A2'] = 'Email'
-    sheet['B2'] = 'First Name'
-    sheet['C2'] = 'Last Name'
-    sheet['D2'] = 'Avatar'
-    
-    print("Writing user data to the Excel sheet...")
-    idx_values = []  # Declare an empty list to store idx values
-    idx_value = ''  # Declare the variable outside the loop
-    for idx, user in enumerate(user_data, start=3):
-        sheet[f'A{idx}'] = user['email']
-        sheet[f'B{idx}'] = user['first_name']
-        sheet[f'C{idx}'] = user['last_name']
+    print("Creating a PDF file...")
+    doc = SimpleDocTemplate("user_data.pdf", pagesize=letter)
+    elements = []
+
+    # Define table data
+    data = [['Email', 'First Name', 'Last Name', 'Avatar']]
+    for user in user_data:
+        email = user['email']
+        first_name = user['first_name']
+        last_name = user['last_name']
         avatar_url = user['avatar']
+        
+        # Download the avatar image
         image_filename = os.path.basename(avatar_url)
-        image_path = os.path.join(os.getcwd(), image_filename)
         response = requests.get(avatar_url)
-        with open(image_path, 'wb') as image_file:
+        with open(image_filename, 'wb') as image_file:
             image_file.write(response.content)
-        img = Image(image_path)
-        sheet.column_dimensions['D'].width = 20
-        sheet.row_dimensions[idx].height = 100
-        sheet.add_image(img, f'D{idx}')
         
-        # Add the idx value to the list
-        idx_values.append(idx)
+        # Add the row to the table data
+        data.append([email, first_name, last_name, image_filename])
     
-    print("Saving the Excel file...")
-    current_directory = os.getcwd()
-    file_path = os.path.join(current_directory, 'user_data.xlsx')
-
-    # Remove the existing file if it exists
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        
-    wb.save(file_path)
-    print("Excel file saved at:", file_path)
+    # Create the table
+    table = Table(data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ]))
     
-    print("Contents of the current directory:")
-    print(os.listdir())
-
-    return idx_values  # Return the list of idx values
+    # Add the table to the elements list
+    elements.append(table)
+    
+    # Build the PDF document
+    doc.build(elements)
+    
+    print("PDF file saved as user_data.pdf")
