@@ -3,6 +3,7 @@ from openpyxl import Workbook
 from openpyxl.drawing.image import Image
 import os
 from PIL import Image as PILImage  # Import PIL's Image module
+from generate_excel import fetch_user_data
 
 print("Imports successful.")
 
