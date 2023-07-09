@@ -7,7 +7,7 @@ print("Imports successful test file")
 
 def test_generate_excel_file():
     # Generate the Excel file
-    generate_excel_file()
+    exec(open("generate_excel.py").read())
 
     # Verify the contents of the current directory
     print("Contents of the current directory:")
