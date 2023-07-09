@@ -3,7 +3,6 @@ import os
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
-from reportlab.lib.utils import ImageReader
 
 print("Imports successful.")
 
@@ -48,14 +47,8 @@ def generate_pdf_file():
         print("Downloading avatar image:", avatar_url)
         download_image(avatar_url, image_path)
         
-        # Create an ImageReader object with the downloaded image
-        image_reader = ImageReader(image_path)
-        image_width = 50  # Adjust the image width as needed
-        image_height = 50  # Adjust the image height as needed
-        image = Image(image_reader, width=image_width, height=image_height)
-        
         # Add the row to the table data
-        data.append([email, first_name, last_name, image])
+        data.append([email, first_name, last_name, image_path])
     
     # Create the table
     table = Table(data)
