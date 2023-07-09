@@ -38,4 +38,4 @@ def test_generate_pdf_file():
         assert last_name in pdf_content, f"Last name '{last_name}' not found in the PDF"
 
     # Clean up the generated PDF file
-    os.remove('user_data.pdf')
+    #os.remove('user_data.pdf')
