@@ -27,15 +27,17 @@ def test_generate_pdf_file():
     ]
 
     # Iterate over the expected data and check if the values are present in the PDF file
+    # Iterate over the expected data and check if the values are present in the PDF file
     for i, data in enumerate(expected_data):
         email = data['email']
         first_name = data['first_name']
         last_name = data['last_name']
+    
+        # Check if the email, first name, and last name values are present
+        assert email == expected_email, f"Email '{email}' does not match expected value"
+        assert first_name == expected_first_name, f"First name '{first_name}' does not match expected value"
+        assert last_name == expected_last_name, f"Last name '{last_name}' does not match expected value"
 
-        # Check if the email, first name, and last name values are present in the PDF
-        # assert email in pdf_content, f"Email '{email}' not found in the PDF"
-        assert first_name in pdf_content, f"First name '{first_name}' not found in the PDF"
-        assert last_name in pdf_content, f"Last name '{last_name}' not found in the PDF"
 
     # Clean up the generated PDF file
     #os.remove('user_data.pdf')
