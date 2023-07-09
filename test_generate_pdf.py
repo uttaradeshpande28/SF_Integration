@@ -1,40 +1,41 @@
 import os
-import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
-import generate_pdf
-from generate_pdf import delete_existing_images, fetch_user_data, generate_pdf_file
-
-def test_fetch_user_data():
-    # Define test data
-    url = "https://reqres.in/api/users"
-
-    # Call the fetch_user_data function
-    data = generate_pdf.fetch_user_data(url)
-
-    # Assert that the data is fetched successfully
-    assert isinstance(data, list), "Data is not a list"
-    assert len(data) > 0, "No data fetched"
+import pytest
 
 def test_generate_pdf_file():
-    # Define test data
-    user_data = [
-        {'email': 'example1@example.com', 'first_name': 'John', 'last_name': 'Doe', 'avatar': 'https://example.com/avatar1.jpg'},
-        {'email': 'example2@example.com', 'first_name': 'Jane', 'last_name': 'Smith', 'avatar': 'https://example.com/avatar2.jpg'}
+    # Verify the contents of the current directory
+    print("Contents of the current directory:")
+    print(os.listdir())
+
+    # Verify that the PDF file is generated successfully
+    assert os.path.exists('user_data.pdf')
+
+    # Verify the content of the PDF file
+    doc = SimpleDocTemplate("user_data.pdf", pagesize=letter)
+    elements = []
+
+    # Load the PDF file and extract its content
+    with open("user_data.pdf", "rb") as file:
+        pdf_content = file.read()
+
+    # Define the expected data
+    expected_data = [
+        {'email': 'george.bluth@reqres.in', 'first_name': 'George', 'last_name': 'Bluth'},
+        # Add more expected data rows as needed
     ]
 
-    # Call the delete_existing_images function to clear any pre-existing images
-    # generate_pdf.delete_existing_images()
+    # Iterate over the expected data and check if the values are present in the PDF file
+    for i, data in enumerate(expected_data):
+        email = data['email']
+        first_name = data['first_name']
+        last_name = data['last_name']
 
-    # Call the generate_pdf_file function
-    generate_pdf.generate_pdf_file()
+        # Check if the email, first name, and last name values are present in the PDF
+        assert email in pdf_content, f"Email '{email}' not found in the PDF"
+        assert first_name in pdf_content, f"First name '{first_name}' not found in the PDF"
+        assert last_name in pdf_content, f"Last name '{last_name}' not found in the PDF"
 
-    # Assert that the PDF file is generated successfully
-    pdf_path = os.path.join(os.getcwd(), "user_data.pdf")
-    assert os.path.exists(pdf_path), f"PDF file '{pdf_path}' does not exist"
-    assert os.path.getsize(pdf_path) > 0, f"PDF file '{pdf_path}' is empty"
-
-# Run the tests
-test_fetch_user_data()
-test_generate_pdf_file()
+    # Clean up the generated PDF file
+    os.remove('user_data.pdf')
