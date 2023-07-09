@@ -3,6 +3,7 @@ from openpyxl import load_workbook
 import pytest
 from openpyxl.drawing.image import Image as ExcelImage
 from generate_excel import fetch_user_data
+from openpyxl import load_workbook
 
 print("Imports successful test file")
 
