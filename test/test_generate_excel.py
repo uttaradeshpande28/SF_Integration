@@ -16,6 +16,16 @@ def test_generate_excel_file():
     sheet = workbook.active
 
     # Verify the headers and user data
+    assert sheet['A1'].value == 'User Data'
+    assert sheet['A2'].value == 'Email'
+    assert sheet['B2'].value == 'First Name'
+    assert sheet['C2'].value == 'Last Name'
+    assert sheet['D2'].value == 'Avatar'
+
+    # Verify the user data
+    assert sheet['A3'].value == 'george.bluth@reqres.in'
+    assert sheet['B3'].value == 'George'
+    assert sheet['C3'].value == 'Bluth'
 
     # Clean up the generated Excel file
     os.remove('user_data.xlsx')
