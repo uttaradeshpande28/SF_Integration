@@ -44,11 +44,11 @@ def test_generate_excel_file():
     assert sheet['B3'].value == 'George'
     assert sheet['C3'].value == 'Bluth'
 
-    # Verify the image data in a specific cell
-    idx_values = generate_excel_file()
     # Verify the image data in specific cells
     for idx_value in idx_values:
-        assert sheet[f'D{idx_value}'].image is not None
+    cell_with_image = sheet[f'D{idx_value}']
+    image = cell_with_image._anchor._drawing.image
+    assert image.anchor.type == "oneCellAnchor"  # Verify the image anchor type
 
     # Verify the image file
     # cell_with_image = sheet['D3']
