@@ -33,14 +33,13 @@ def test_generate_excel_file():
     assert sheet['C3'].value == 'Bluth'
 
     # Verify the image file
-    cell_with_image = sheet['D3']
-    image_filename = os.path.basename(cell_with_image.value)
-    image_path = os.path.join(os.getcwd(), image_filename)
+    # cell_with_image = sheet['D3']
+    # image_filename = os.path.basename(cell_with_image.value)
+    # image_path = os.path.join(os.getcwd(), image_filename)
 
-    # Verify the image dimensions
     img = sheet['D3'].image
-    assert img.width == 96
-    assert img.height == 96
+    assert img.width_cm == 3.39
+    assert img.height_cm == 3.39
 
     # Verify the image file format
     assert img.format == 'jpeg'
