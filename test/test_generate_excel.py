@@ -32,11 +32,11 @@ def test_generate_excel_file():
     assert sheet['B3'].value == 'George'
     assert sheet['C3'].value == 'Bluth'
 
-    # Verify the image data
-    drawing = sheet.drawing
+   # Verify the image data
+    drawing = workbook.active._drawing
     image = drawing.get_image(sheet['D3'].coordinate)
-    assert isinstance(image, Image)  # Verify that the object is an instance of Image
-    assert image.anchor.type == 'oneCellAnchor'  # Verify the image anchor type
+    assert isinstance(image, DrawingImage)
+    assert image.anchor.type == 'oneCellAnchor'
 
     # Verify the image dimensions
     img = sheet['D3'].image
