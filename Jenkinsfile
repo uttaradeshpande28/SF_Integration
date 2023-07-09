@@ -86,7 +86,7 @@ pipeline {
     stage('Coverage Report') {
       steps {
         // Remove pre-existing coverage.xml file if it exists
-        powershell 'Remove-Item -Path "coverage.xml" -ErrorAction SilentlyContinue'
+        powershell 'Remove-Item -Path "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage.xml" -ErrorAction SilentlyContinue'
         
         // Generate coverage report using PowerShell with the full path to the coverage executable
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'
