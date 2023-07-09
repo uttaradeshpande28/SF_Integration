@@ -27,7 +27,7 @@ pipeline {
           echo "Download Directory: ${downloadDir}"
           
            // Remove the existing requirements.txt file if it exists
-          sh "rm -f ${downloadDir}/requirements.txt"
+          powershell "Remove-Item -Path '${downloadDir}/requirements.txt' -ErrorAction SilentlyContinue"
     
           powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/requirements.txt"
     
