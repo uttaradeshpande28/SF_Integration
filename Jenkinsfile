@@ -1,7 +1,12 @@
 pipeline {
   agent any
-
+  
   stages {
+    stage('Clear Workspace') {
+            steps {
+                cleanWs()
+            }
+      
     stage('Install Pip') {
       steps {
         echo "install curl"
