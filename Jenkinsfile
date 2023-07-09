@@ -25,6 +25,9 @@ pipeline {
           def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/requirements.txt"
     
           echo "Download Directory: ${downloadDir}"
+          
+           // Remove the existing requirements.txt file if it exists
+          sh "rm -f ${downloadDir}/requirements.txt"
     
           powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/requirements.txt"
     
