@@ -68,35 +68,23 @@ pipeline {
     stage('test') {
       steps {
         script {
-        // Remove the existing test file if it exists
-        powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
+          echo "Download Directory: ${downloadDir}"
+    
+          // Download the test file
+          powershell "Invoke-WebRequest -Uri ${url}/test_generate_pdf.py -OutFile ${downloadDir}/test_generate_pdf.py"
+    
+          // Run the tests and collect coverage data
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run -m pytest ${downloadDir}/test_generate_pdf.py"
+    
+          // Generate coverage report
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m"
         
-        def testURL = "${url}/test_generate_pdf.py"
-        
-        // Get the test_generate_pdf.py file from the constructed URL
-        powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
-        
-        echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
-        // Run the downloaded test file
-        powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/test_generate_pdf.py"
+          // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
+          powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'
         }
-      }
-    }
-
-    stage('Coverage Report') {
-      steps {
-        // Remove pre-existing coverage.xml file if it exists
-        // powershell 'Remove-Item -Path "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage.xml" -ErrorAction SilentlyContinue'
-        
-        // Generate coverage report using PowerShell with the full path to the coverage executable
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'
-        
-        // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'
-      }
-      post {
-        always {
-          archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true  // Archive the coverage.xml file as an artifact
+        post {
+          always {
+            archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true  // Archive the coverage.xml file as an artifact
         }
       }
     }
