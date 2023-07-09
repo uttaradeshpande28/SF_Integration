@@ -3,6 +3,7 @@ import requests
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Image
 from reportlab.lib import colors
+from generate_pdf import fetch_user_data, generate_pdf_file, delete_existing_images
 
 def test_fetch_user_data():
     # Define test data
@@ -22,8 +23,11 @@ def test_generate_pdf_file():
         {'email': 'example2@example.com', 'first_name': 'Jane', 'last_name': 'Smith', 'avatar': 'https://example.com/avatar2.jpg'}
     ]
 
+    # Call the delete_existing_images function to clear any pre-existing images
+    # delete_existing_images()
+
     # Call the generate_pdf_file function
-    generate_pdf_file(user_data)
+    generate_pdf_file()
 
     # Assert that the PDF file is generated successfully
     pdf_path = os.path.join(os.getcwd(), "user_data.pdf")
