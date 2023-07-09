@@ -37,7 +37,7 @@ def test_generate_excel_file():
     # image_filename = os.path.basename(cell_with_image.value)
     # image_path = os.path.join(os.getcwd(), image_filename)
 
-    img = sheet['D3'].image
+    img = sheet['D3'].Avatar
     assert img.width_cm == 3.39
     assert img.height_cm == 3.39
 
