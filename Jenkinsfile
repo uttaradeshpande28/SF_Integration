@@ -59,9 +59,19 @@ pipeline {
 
     stage('Generate Excel File') {
       steps {
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe generate_excel.py'  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
-        echo "Contents of workspace directory after generating Excel file:"
-        bat 'dir'
+        script {
+          def downloadDir = "${env.WORKSPACE}"
+          def branch = "feature/sf"  // Replace with the desired branch name
+          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/generate_excel.py"
+    
+          echo "Download Directory: ${downloadDir}"
+    
+          powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/generate_excel.py"
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/generate_excel.py"  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
+    
+          echo "Contents of workspace directory after generating Excel file:"
+          bat 'dir'
+        }
       }
       post {
         always {
