@@ -22,7 +22,7 @@ pipeline {
         script {
           def downloadDir = "${env.WORKSPACE}"
           def branch = "feature/sf"  // Replace with the desired branch name
-          def repository = "uttaradeshpande28/SF_Integration"  // Replace with the desired repository name
+          def repository = "https://github.com/uttaradeshpande28/SF_Integration"  // Replace with the desired repository name
           
           echo "Download Directory: ${downloadDir}"
           
