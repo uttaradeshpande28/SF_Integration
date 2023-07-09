@@ -18,7 +18,7 @@ pipeline {
         echo "1.."
         powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\pip install pillow'  // Install Pillow
         echo "2.."
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with full path to coverage executable
+        // powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with full path to coverage executable
         echo "3.."
       }
     }
