@@ -46,6 +46,7 @@ pipeline {
   
     stage('test') {
       steps {
+        script {
         // Remove the existing test file if it exists
         powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
         
@@ -55,6 +56,7 @@ pipeline {
         powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
         
         echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        }
       }
     }
 
