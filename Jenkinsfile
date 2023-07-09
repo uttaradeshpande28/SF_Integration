@@ -81,8 +81,14 @@ pipeline {
 
     stage('Coverage Report') {
       steps {
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'  // Generate coverage report using PowerShell with the full path to the coverage executable
-        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'  // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
+        // Remove pre-existing coverage.xml file if it exists
+        powershell 'Remove-Item -Path "coverage.xml" -ErrorAction SilentlyContinue'
+        
+        // Generate coverage report using PowerShell with the full path to the coverage executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m'
+        
+        // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
+        powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'
       }
       post {
         always {
