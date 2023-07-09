@@ -44,6 +44,9 @@ def generate_excel_file():
         sheet.column_dimensions['D'].width = 20
         sheet.row_dimensions[idx].height = 100
         sheet.add_image(img, f'D{idx}')
+        
+        # Add a line to store the value of idx as a variable
+        idx_value = idx
     
     print("Saving the Excel file...")
     current_directory = os.getcwd()
