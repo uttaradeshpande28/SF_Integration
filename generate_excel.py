@@ -41,7 +41,8 @@ for idx, user in enumerate(user_data, start=3):
     sheet.add_image(img, f'D{idx}')
 
 print("Saving the Excel file...")
-file_path = r'C:\data\jenkins_home\workspace\SF_Integration_pipeline\user_data.xlsx'
+current_directory = os.getcwd()
+file_path = os.path.join(current_directory, 'user_data.xlsx')
 wb.save(file_path)
 print("Excel file saved at:", file_path)
 
