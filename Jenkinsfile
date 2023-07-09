@@ -5,6 +5,7 @@ pipeline {
     downloadDir = "${env.WORKSPACE}"
     branch = "feature/sf"
     url = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}"
+    fileURL = "${url}/generate_pdf.py"
   }
   
   stages {
@@ -31,7 +32,7 @@ pipeline {
           // Remove the existing requirements.txt file if it exists
           powershell "Remove-Item -Path '${downloadDir}/requirements.txt' -ErrorAction SilentlyContinue"
           // get requirement.txt
-          powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/requirements.txt"
+          powershell "Invoke-WebRequest -Uri ${url}/requirements.txt -OutFile ${downloadDir}/requirements.txt"
           echo "Requirements file downloaded and saved at: ${downloadDir}/requirements.txt"
           
           // Install Python dependencies using pip
@@ -45,21 +46,21 @@ pipeline {
   
     stage('test') {
       steps {
-        // Remove the existing test file if it exists
+        script {
+          echo "Download Directory: ${downloadDir}"
+          
+          // Remove the existing test file if it exists
           powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
           // get test_generate_pdf.py
-          powershell "Invoke-WebRequest -Uri ${fileURL}/test -OutFile ${downloadDir}/test_generate_pdf.py"
-          echo "Requirements file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+          powershell "Invoke-WebRequest -Uri ${url}/test -OutFile ${downloadDir}/test_generate_pdf.py"
+          echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        }
       }
     }
     
     stage('build') {
       steps {
         script {
-          def downloadDir = "${env.WORKSPACE}"
-          def branch = "feature/sf"  // Replace with the desired branch name
-          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/generate_pdf.py"
-    
           echo "Download Directory: ${downloadDir}"
     
           powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/generate_pdf.py"
