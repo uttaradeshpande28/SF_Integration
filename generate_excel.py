@@ -13,14 +13,23 @@ def delete_existing_images():
         if file_name.endswith(".jpg"):
             os.remove(os.path.join(workspace_path, file_name))
 
+def fetch_user_data(url):
+    """
+    Fetch user data from the API.
+    """
+    response = requests.get(url)
+    data = response.json().get('data', [])
+    return data
+
 def generate_pdf_file():
     """
     Generate a PDF file with user data and avatar images.
     """
+    api_url = "https://reqres.in/api/users"
     delete_existing_images()
 
     # Fetch user data from the API
-    user_data = fetch_user_data()
+    user_data = fetch_user_data(api_url)
     image_filenames = []
 
     # Download avatar images and save in the workspace
