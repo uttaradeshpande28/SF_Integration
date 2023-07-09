@@ -1,8 +1,11 @@
 import os
 from openpyxl import load_workbook
+import pytest
+print("Imports successful test file")
 
 def test_generate_excel_file():
     # Verify the contents of the current directory
+    print("Contents of the current directory _test:")
     print(os.listdir())
 
     # Verify that the Excel file is generated successfully
