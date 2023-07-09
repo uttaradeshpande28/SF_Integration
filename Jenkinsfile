@@ -44,23 +44,7 @@ pipeline {
       }
     }
   
-    stage('test') {
-      steps {
-        script {
-        // Remove the existing test file if it exists
-        powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
-        
-        def testURL = "${url}/test_generate_pdf.py"
-        
-        // Get the test_generate_pdf.py file from the constructed URL
-        powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
-        
-        echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
-        // Run the downloaded test file
-        powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/test_generate_pdf.py"
-        }
-      }
-    }
+    
 
     stage('build') {
       steps {
@@ -77,6 +61,24 @@ pipeline {
       post {
         always {
           archiveArtifacts artifacts: 'user_data.pdf', onlyIfSuccessful: true  // Archive the Excel file as an artifact
+        }
+      }
+    }
+    
+    stage('test') {
+      steps {
+        script {
+        // Remove the existing test file if it exists
+        powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
+        
+        def testURL = "${url}/test_generate_pdf.py"
+        
+        // Get the test_generate_pdf.py file from the constructed URL
+        powershell "Invoke-WebRequest -Uri '${testURL}' -OutFile '${downloadDir}/test_generate_pdf.py'"
+        
+        echo "Test file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
+        // Run the downloaded test file
+        powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/test_generate_pdf.py"
         }
       }
     }
