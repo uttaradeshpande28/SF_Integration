@@ -22,20 +22,17 @@ pipeline {
         script {
           def downloadDir = "${env.WORKSPACE}"
           def branch = "feature/sf"  // Replace with the desired branch name
-          def repository = "https://github.com/uttaradeshpande28/SF_Integration"  // Replace with the desired repository name
-          
+          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/requirements.txt"
+    
           echo "Download Directory: ${downloadDir}"
-          
-          def fileContents = httpRequest(url: "https://raw.githubusercontent.com/${repository}/${branch}/requirements.txt")
-          
-          def requirementsFilePath = "${downloadDir}/requirements.txt"
-          writeFile file: requirementsFilePath, text: fileContents
-          
-          echo "Requirements file downloaded and saved at: ${requirementsFilePath}"
+    
+          powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/requirements.txt"
+    
+          echo "Requirements file downloaded and saved at: ${downloadDir}/requirements.txt"
         }
       }
     }
-
+  
     stage('Build and Test') {
       steps {
         echo "0.."
