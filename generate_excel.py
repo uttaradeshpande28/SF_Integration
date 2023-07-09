@@ -31,7 +31,7 @@ def generate_excel_file():
     
     print("Writing user data to the Excel sheet...")
     idx_values = []  # Declare an empty list to store idx values
-    idx_value = None  # Declare the variable outside the loop
+    idx_value = ''  # Declare the variable outside the loop
     for idx, user in enumerate(user_data, start=3):
         sheet[f'A{idx}'] = user['email']
         sheet[f'B{idx}'] = user['first_name']
