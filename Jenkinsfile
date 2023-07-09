@@ -1,5 +1,11 @@
 pipeline {
   agent any
+
+  environment {
+    downloadDir = "${env.WORKSPACE}"
+    branch = "feature/sf"
+    url = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}"
+  }
   
   stages {
     stage('Clear Workspace') {
@@ -20,10 +26,6 @@ pipeline {
     stage('pre-build') {
       steps {
         script {
-          def downloadDir = "${env.WORKSPACE}"
-          def branch = "feature/sf"  // Replace with the desired branch name
-          def fileURL = "https://raw.githubusercontent.com/uttaradeshpande28/SF_Integration/${branch}/requirements.txt"
-    
           echo "Download Directory: ${downloadDir}"
           
           // Remove the existing requirements.txt file if it exists
@@ -43,9 +45,11 @@ pipeline {
   
     stage('test') {
       steps {
-        //test
-        // powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=. -m pytest --verbose test/'  // Run tests with code coverage using PowerShell with the full path to the coverage executable
-        echo "3.."
+        // Remove the existing test file if it exists
+          powershell "Remove-Item -Path '${downloadDir}/test_generate_pdf.py' -ErrorAction SilentlyContinue"
+          // get test_generate_pdf.py
+          powershell "Invoke-WebRequest -Uri ${fileURL}/test -OutFile ${downloadDir}/test_generate_pdf.py"
+          echo "Requirements file downloaded and saved at: ${downloadDir}/test_generate_pdf.py"
       }
     }
     
