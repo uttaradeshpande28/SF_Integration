@@ -71,7 +71,7 @@ pipeline {
           echo "Download Directory: ${downloadDir}"
     
           powershell "Invoke-WebRequest -Uri ${fileURL} -OutFile ${downloadDir}/generate_excel.py"
-          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}\generate_excel.py"  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\python.exe ${downloadDir}/generate_excel.py"  // Run the Python script to generate the Excel file using PowerShell with the full path to the Python executable
     
           echo "Contents of workspace directory after generating Excel file:"
           bat 'dir'
