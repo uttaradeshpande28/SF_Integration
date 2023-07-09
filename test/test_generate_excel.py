@@ -45,7 +45,7 @@ def test_generate_excel_file():
     assert sheet['C3'].value == 'Bluth'
 
     # Verify the image data in a specific cell
-    assert sheet[f'D{idx}'].image is not None
+    assert sheet[f'D{idx_value}'].image is not None
 
     # Verify the image file
     # cell_with_image = sheet['D3']
