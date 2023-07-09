@@ -17,7 +17,7 @@ def fetch_user_data():
     return user_data, response
 
 def download_image(url, filename):
-    response = requests.get(url)
+    response = requests.get('https://reqres.in/api/users')
     with open(filename, 'wb') as image_file:
         image_file.write(response.content)
 
