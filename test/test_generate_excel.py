@@ -1,7 +1,7 @@
 import os
 from openpyxl import load_workbook
 import pytest
-from generate_excel import generate_excel_file
+from openpyxl.drawing.image import Image as ExcelImage
 
 print("Imports successful test file")
 
