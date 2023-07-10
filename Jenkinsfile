@@ -72,16 +72,13 @@ pipeline {
           powershell "Invoke-WebRequest -Uri ${url}/test_generate_pdf.py -OutFile ${downloadDir}/test_generate_pdf.py"
     
           // Run the tests and collect coverage data
-          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run ${downloadDir}/test_generate_pdf.py"
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=${downloadDir} ${downloadDir}/test_generate_pdf.py"
     
           // Generate coverage report
-          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report -m"
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report > ${downloadDir}/coverage.txt"
         
-          // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
-          powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'
-          
-          // Archive the coverage.xml file as an artifact
-          archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true
+          // Archive the coverage.txt file as an artifact
+          archiveArtifacts artifacts: 'coverage.txt', onlyIfSuccessful: true
         }
       }
     }
