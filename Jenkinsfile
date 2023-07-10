@@ -80,7 +80,7 @@ pipeline {
           // Generate coverage report in XML format using PowerShell with the full path to the coverage executable
           powershell 'C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage xml -o coverage.xml'
         }
-        post {
+      post {
           always {
             archiveArtifacts artifacts: 'coverage.xml', onlyIfSuccessful: true  // Archive the coverage.xml file as an artifact
           }
