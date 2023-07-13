@@ -72,7 +72,7 @@ pipeline {
           powershell "Invoke-WebRequest -Uri ${url}/test_generate_pdf.py -OutFile ${downloadDir}/test_generate_pdf.py"
     
           // Run the tests and collect coverage data
-          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=${downloadDir} ${downloadDir}/test_generate_pdf.py"
+          powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage run --source=${downloadDir} --omit=get-pip.py -m pytest ${downloadDir}/test_generate_pdf.py"
     
           // Generate coverage report
           powershell "C:\\Users\\Uttara\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\coverage report > ${downloadDir}/coverage.txt"
